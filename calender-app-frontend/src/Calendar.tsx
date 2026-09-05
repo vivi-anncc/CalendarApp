@@ -4,37 +4,46 @@ import type { CalendarEvent } from './App';
 type CalendarProps = {
   events: CalendarEvent[];
   onAddEvent: () => void;
+  onEditEvent: (
+    event: CalendarEvent,
+  ) => void;
 };
 
 function Calendar({
   events,
   onAddEvent,
+  onEditEvent,
 }: CalendarProps) {
-  const [currentDate, setCurrentDate] = useState(
-    new Date(),
-  );
+  const [currentDate, setCurrentDate] =
+    useState(new Date());
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const year =
+    currentDate.getFullYear();
 
-  const firstDay = new Date(
-    year,
-    month,
-    1,
-  ).getDay();
+  const month =
+    currentDate.getMonth();
 
-  const daysInMonth = new Date(
-    year,
-    month + 1,
-    0,
-  ).getDate();
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1,
+    ).getDay();
 
-  const monthName = currentDate.toLocaleString(
-    'default',
-    {
-      month: 'long',
-    },
-  );
+  const daysInMonth =
+    new Date(
+      year,
+      month + 1,
+      0,
+    ).getDate();
+
+  const monthName =
+    currentDate.toLocaleString(
+      'default',
+      {
+        month: 'long',
+      },
+    );
 
   const weekdays = [
     'Sun',
@@ -69,48 +78,58 @@ function Calendar({
   }
 
   function goToToday() {
-    setCurrentDate(new Date());
+    setCurrentDate(
+      new Date(),
+    );
   }
 
   function isToday(day: number) {
     return (
       day === today.getDate() &&
-      month === today.getMonth() &&
-      year === today.getFullYear()
+      month ===
+        today.getMonth() &&
+      year ===
+        today.getFullYear()
     );
   }
 
-  function getEventsForDay(day: number) {
-    return events.filter((event) => {
-      const eventDate = new Date(
-        event.startTime,
-      );
+  function getEventsForDay(
+    day: number,
+  ) {
+    return events.filter(
+      (event) => {
+        const eventDate =
+          new Date(
+            event.startTime,
+          );
 
-      return (
-        eventDate.getDate() === day &&
-        eventDate.getMonth() === month &&
-        eventDate.getFullYear() === year
-      );
-    });
+        return (
+          eventDate.getDate() ===
+            day &&
+          eventDate.getMonth() ===
+            month &&
+          eventDate.getFullYear() ===
+            year
+        );
+      },
+    );
   }
 
   return (
     <main className="calendar-section">
 
-      {/* =====================================
-          TITLE ROW
-          ===================================== */}
-
       <div className="calendar-title-row">
 
         <div className="calendar-title">
+
           <h2>
             {monthName} {year}
           </h2>
 
           <p>
-            Your plans, all in one place.
+            Keep track of your little plans.
           </p>
+
         </div>
 
         <button
@@ -127,21 +146,17 @@ function Calendar({
 
       </div>
 
-
-      {/* =====================================
-          CALENDAR CARD
-          ===================================== */}
-
       <div className="calendar-card">
-
-        {/* NAVIGATION */}
 
         <div className="calendar-navigation">
 
           <button
             type="button"
             className="month-button"
-            onClick={previousMonth}
+            onClick={
+              previousMonth
+            }
+            aria-label="Previous month"
           >
             ←
           </button>
@@ -149,7 +164,9 @@ function Calendar({
           <button
             type="button"
             className="today-button"
-            onClick={goToToday}
+            onClick={
+              goToToday
+            }
           >
             Today
           </button>
@@ -157,87 +174,99 @@ function Calendar({
           <button
             type="button"
             className="month-button"
-            onClick={nextMonth}
+            onClick={
+              nextMonth
+            }
+            aria-label="Next month"
           >
             →
           </button>
 
         </div>
 
-
-        {/* WEEKDAYS */}
-
         <div className="weekdays">
 
-          {weekdays.map((day) => (
-            <div
-              key={day}
-              className="weekday"
-            >
-              {day}
-            </div>
-          ))}
+          {weekdays.map(
+            (day) => (
+              <div
+                key={day}
+                className="weekday"
+              >
+                {day}
+              </div>
+            ),
+          )}
 
         </div>
-
-
-        {/* CALENDAR DAYS */}
 
         <div className="calendar-grid">
 
           {Array.from({
             length: firstDay,
-          }).map((_, index) => (
-            <div
-              key={`empty-${index}`}
-              className="calendar-day empty-day"
-            />
-          ))}
-
+          }).map(
+            (_, index) => (
+              <div
+                key={`empty-${index}`}
+                className="calendar-day empty-day"
+              />
+            ),
+          )}
 
           {Array.from({
             length: daysInMonth,
-          }).map((_, index) => {
+          }).map(
+            (_, index) => {
+              const day =
+                index + 1;
 
-            const day = index + 1;
+              const dayEvents =
+                getEventsForDay(
+                  day,
+                );
 
-            const dayEvents =
-              getEventsForDay(day);
+              return (
+                <div
+                  key={day}
+                  className={`calendar-day ${
+                    isToday(day)
+                      ? 'today'
+                      : ''
+                  }`}
+                >
 
-            return (
-              <div
-                key={day}
-                className={`calendar-day ${
-                  isToday(day)
-                    ? 'today'
-                    : ''
-                }`}
-              >
+                  <div className="day-number">
+                    {day}
+                  </div>
 
-                <div className="day-number">
-                  {day}
+                  <div className="day-events">
+
+                    {dayEvents.map(
+                      (event) => (
+                        <button
+                          type="button"
+                          key={event.id}
+                          className="calendar-event"
+                          title={
+                            event.description ||
+                            event.title
+                          }
+                          onClick={() =>
+                            onEditEvent(
+                              event,
+                            )
+                          }
+                        >
+                          {event.title}
+                        </button>
+                      ),
+                    )}
+
+                  </div>
+
                 </div>
-
-                <div className="day-events">
-
-                  {dayEvents.map((event) => (
-                    <div
-                      key={event.id}
-                      className="calendar-event"
-                      title={
-                        event.description ||
-                        event.title
-                      }
-                    >
-                      {event.title}
-                    </div>
-                  ))}
-
-                </div>
-
-              </div>
-            );
-          })}
+              );
+            },
+          )}
 
         </div>
 
