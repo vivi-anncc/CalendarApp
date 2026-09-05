@@ -40,6 +40,7 @@ function App() {
 
         setIsLoggedIn(false);
         setEvents([]);
+
         setMessage(
           Array.isArray(data.message)
             ? data.message.join(', ')
@@ -57,7 +58,10 @@ function App() {
 
   async function login() {
     if (!username || !password) {
-      setMessage('Please enter your username and password.');
+      setMessage(
+        'Please enter your username and password.',
+      );
+
       return;
     }
 
@@ -101,7 +105,9 @@ function App() {
 
       await loadEvents(data.access_token);
     } catch {
-      setMessage('Could not connect to the server.');
+      setMessage(
+        'Could not connect to the server.',
+      );
     }
   }
 
@@ -140,7 +146,9 @@ function App() {
   }, []);
 
   /*
-   * LOGIN
+   * =========================================
+   * LOGIN PAGE
+   * =========================================
    */
 
   if (!isLoggedIn) {
@@ -152,6 +160,8 @@ function App() {
           <div className="login-content">
 
             <div className="brand">
+
+              {/* LOGO */}
 
               <div className="logo-wrapper">
 
@@ -194,11 +204,9 @@ function App() {
 
               </div>
 
-              <p className="brand-tagline">
-                Your little space for planning.
-              </p>
-
             </div>
+
+            {/* LOGIN FORM */}
 
             <div className="login-form">
 
@@ -264,7 +272,9 @@ function App() {
   }
 
   /*
-   * ADD EVENT
+   * =========================================
+   * ADD EVENT PAGE
+   * =========================================
    */
 
   if (showAdd) {
@@ -288,7 +298,9 @@ function App() {
   }
 
   /*
-   * CALENDAR
+   * =========================================
+   * CALENDAR PAGE
+   * =========================================
    */
 
   return (
