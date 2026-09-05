@@ -18,9 +18,18 @@ function App() {
   const [password, setPassword] = useState('');
 
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showAdd, setShowAdd] = useState(false);
-  const [message, setMessage] = useState('');
+
+  const [isLoggedIn, setIsLoggedIn] =
+    useState(false);
+
+  const [showAdd, setShowAdd] =
+    useState(false);
+
+  const [editingEvent, setEditingEvent] =
+    useState<CalendarEvent | null>(null);
+
+  const [message, setMessage] =
+    useState('');
 
   async function loadEvents(token: string) {
     try {
@@ -36,7 +45,9 @@ function App() {
       const data = await response.json();
 
       if (!response.ok) {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem(
+          'accessToken',
+        );
 
         setIsLoggedIn(false);
         setEvents([]);
@@ -44,7 +55,8 @@ function App() {
         setMessage(
           Array.isArray(data.message)
             ? data.message.join(', ')
-            : data.message,
+            : data.message ||
+                'Could not load events.',
         );
 
         return;
@@ -52,7 +64,9 @@ function App() {
 
       setEvents(data);
     } catch {
-      setMessage('Could not load your events.');
+      setMessage(
+        'Could not load your events.',
+      );
     }
   }
 
@@ -72,7 +86,8 @@ function App() {
           method: 'POST',
 
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type':
+              'application/json',
           },
 
           body: JSON.stringify({
@@ -88,7 +103,8 @@ function App() {
         setMessage(
           Array.isArray(data.message)
             ? data.message.join(', ')
-            : data.message,
+            : data.message ||
+                'Login failed.',
         );
 
         return;
@@ -103,7 +119,9 @@ function App() {
       setPassword('');
       setMessage('');
 
-      await loadEvents(data.access_token);
+      await loadEvents(
+        data.access_token,
+      );
     } catch {
       setMessage(
         'Could not connect to the server.',
@@ -120,14 +138,188 @@ function App() {
     ]);
 
     setShowAdd(false);
-    setMessage('Event created! ✨');
+    setEditingEvent(null);
+
+    setMessage(
+      'Event created! ✨',
+    );
+  }
+
+  async function handleEventUpdated(
+    updatedEvent: CalendarEvent,
+  ) {
+    const token =
+      localStorage.getItem(
+        'accessToken',
+      );
+
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/events/${updatedEvent.id}`,
+        {
+          method: 'PATCH',
+
+          headers: {
+            'Content-Type':
+              'application/json',
+
+            Authorization: `Bearer ${token}`,
+          },
+
+          body: JSON.stringify({
+            title: updatedEvent.title,
+            description:
+              updatedEvent.description,
+            startTime:
+              updatedEvent.startTime,
+            endTime:
+              updatedEvent.endTime,
+            location:
+              updatedEvent.location,
+          }),
+        },
+      );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        setMessage(
+          Array.isArray(data.message)
+            ? data.message.join(', ')
+            : data.message ||
+                'Could not update the event.',
+        );
+
+        return;
+      }
+
+      setEvents((currentEvents) =>
+        currentEvents.map((event) =>
+          event.id === updatedEvent.id
+            ? data
+            : event,
+        ),
+      );
+
+      setEditingEvent(null);
+
+      setMessage(
+        'Event updated! ✨',
+      );
+    } catch {
+      setMessage(
+        'Could not connect to the server.',
+      );
+    }
+  }
+
+  async function handleEventDeleted(
+    eventId: number,
+  ) {
+    const token =
+      localStorage.getItem(
+        'accessToken',
+      );
+
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    const confirmed =
+      window.confirm(
+        'Are you sure you want to delete this event?',
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/events/${eventId}`,
+        {
+          method: 'DELETE',
+
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        let data: {
+          message?: string | string[];
+        } | null = null;
+
+        try {
+          data =
+            await response.json();
+        } catch {
+          data = null;
+        }
+
+        setMessage(
+          Array.isArray(data?.message)
+            ? data.message.join(', ')
+            : data?.message ||
+                'Could not delete the event.',
+        );
+
+        return;
+      }
+
+      setEvents((currentEvents) =>
+        currentEvents.filter(
+          (event) =>
+            event.id !== eventId,
+        ),
+      );
+
+      setEditingEvent(null);
+
+      setMessage(
+        'Event deleted! ✨',
+      );
+    } catch {
+      setMessage(
+        'Could not connect to the server.',
+      );
+    }
+  }
+
+  function handleEditEvent(
+    event: CalendarEvent,
+  ) {
+    setMessage('');
+    setShowAdd(false);
+    setEditingEvent(event);
+  }
+
+  function handleCancelEdit() {
+    setEditingEvent(null);
+    setMessage('');
+  }
+
+  function handleCancelAdd() {
+    setShowAdd(false);
+    setMessage('');
   }
 
   function logout() {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem(
+      'accessToken',
+    );
 
     setIsLoggedIn(false);
     setShowAdd(false);
+    setEditingEvent(null);
     setEvents([]);
 
     setUsername('');
@@ -137,7 +329,9 @@ function App() {
 
   useEffect(() => {
     const token =
-      localStorage.getItem('accessToken');
+      localStorage.getItem(
+        'accessToken',
+      );
 
     if (token) {
       setIsLoggedIn(true);
@@ -146,22 +340,19 @@ function App() {
   }, []);
 
   /*
-   * =========================================
-   * LOGIN PAGE
-   * =========================================
+   * ================================
+   * LOGIN
+   * ================================
    */
 
   if (!isLoggedIn) {
     return (
       <div className="app">
-
         <div className="login-page">
 
           <div className="login-content">
 
             <div className="brand">
-
-              {/* LOGO */}
 
               <div className="logo-wrapper">
 
@@ -204,22 +395,27 @@ function App() {
 
               </div>
 
-            </div>
+              <p className="brand-tagline">
+                Your little space for planning.
+              </p>
 
-            {/* LOGIN FORM */}
+            </div>
 
             <div className="login-form">
 
               <div className="field">
 
-                <label>
+                <label htmlFor="username">
                   Username
                 </label>
 
                 <input
+                  id="username"
                   value={username}
                   onChange={(e) =>
-                    setUsername(e.target.value)
+                    setUsername(
+                      e.target.value,
+                    )
                   }
                   placeholder="Enter username"
                 />
@@ -228,19 +424,24 @@ function App() {
 
               <div className="field">
 
-                <label>
+                <label htmlFor="password">
                   Password
                 </label>
 
                 <input
+                  id="password"
                   type="password"
                   value={password}
                   onChange={(e) =>
-                    setPassword(e.target.value)
+                    setPassword(
+                      e.target.value,
+                    )
                   }
                   placeholder="Enter password"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    if (
+                      e.key === 'Enter'
+                    ) {
                       login();
                     }
                   }}
@@ -249,6 +450,7 @@ function App() {
               </div>
 
               <button
+                type="button"
                 className="primary-button"
                 onClick={login}
               >
@@ -266,15 +468,14 @@ function App() {
           </div>
 
         </div>
-
       </div>
     );
   }
 
   /*
-   * =========================================
-   * ADD EVENT PAGE
-   * =========================================
+   * ================================
+   * ADD EVENT
+   * ================================
    */
 
   if (showAdd) {
@@ -284,11 +485,12 @@ function App() {
         <div className="page">
 
           <Add
-            onEventCreated={handleEventCreated}
-            onCancel={() => {
-              setShowAdd(false);
-              setMessage('');
-            }}
+            onEventCreated={
+              handleEventCreated
+            }
+            onCancel={
+              handleCancelAdd
+            }
           />
 
         </div>
@@ -298,9 +500,40 @@ function App() {
   }
 
   /*
-   * =========================================
-   * CALENDAR PAGE
-   * =========================================
+   * ================================
+   * EDIT EVENT
+   * ================================
+   */
+
+  if (editingEvent) {
+    return (
+      <div className="app">
+
+        <div className="page">
+
+          <Add
+            event={editingEvent}
+            onEventCreated={
+              handleEventUpdated
+            }
+            onCancel={
+              handleCancelEdit
+            }
+            onDelete={
+              handleEventDeleted
+            }
+          />
+
+        </div>
+
+      </div>
+    );
+  }
+
+  /*
+   * ================================
+   * CALENDAR
+   * ================================
    */
 
   return (
@@ -323,6 +556,7 @@ function App() {
           </div>
 
           <button
+            type="button"
             className="logout"
             onClick={logout}
           >
@@ -337,6 +571,9 @@ function App() {
             setMessage('');
             setShowAdd(true);
           }}
+          onEditEvent={
+            handleEditEvent
+          }
         />
 
         {message && (
