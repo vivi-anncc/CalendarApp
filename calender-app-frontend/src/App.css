@@ -1,6 +1,4 @@
-/* =========================================
-   GLOBAL
-   ========================================= */
+/* GLOBAL */
 
 * {
   box-sizing: border-box;
@@ -26,9 +24,7 @@ body {
 }
 
 
-/* =========================================
-   APP BACKGROUND
-   ========================================= */
+/* APP BACKGROUND */
 
 .app {
   min-height: 100vh;
@@ -58,15 +54,10 @@ body {
 }
 
 
-/* =========================================
-   MAIN PAGE
-   ========================================= */
+/* MAIN PAGE */
 
 .page {
-  width: min(
-    1100px,
-    calc(100% - 64px)
-  );
+  width: min(1100px, calc(100% - 64px));
 
   margin: 0 auto;
 
@@ -74,9 +65,7 @@ body {
 }
 
 
-/* =========================================
-   TOP HEADER
-   ========================================= */
+/* TOP HEADER */
 
 .topbar {
   position: relative;
@@ -121,9 +110,7 @@ body {
 }
 
 
-/* =========================================
-   LOGOUT
-   ========================================= */
+/* LOGOUT BUTTON */
 
 .logout {
   position: absolute;
@@ -156,7 +143,8 @@ body {
 
   transition:
     background 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .logout:hover {
@@ -166,12 +154,14 @@ body {
   transform:
     translateY(-50%)
     translateY(-1px);
+
+  box-shadow:
+    0 6px 16px
+    rgba(118, 85, 162, 0.12);
 }
 
 
-/* =========================================
-   CALENDAR SECTION
-   ========================================= */
+/* CALENDAR SECTION */
 
 .calendar-section {
   width: 100%;
@@ -180,9 +170,7 @@ body {
 }
 
 
-/* =========================================
-   CALENDAR TITLE ROW
-   ========================================= */
+/* CALENDAR TITLE ROW */
 
 .calendar-title-row {
   width: 100%;
@@ -201,9 +189,7 @@ body {
 }
 
 
-/* =========================================
-   MONTH + YEAR
-   ========================================= */
+/* MONTH + YEAR */
 
 .calendar-title {
   flex: 1;
@@ -234,9 +220,7 @@ body {
 }
 
 
-/* =========================================
-   ADD EVENT BUTTON
-   ========================================= */
+/* ADD EVENT BUTTON */
 
 .add-event-button {
   flex-shrink: 0;
@@ -302,9 +286,7 @@ body {
 }
 
 
-/* =========================================
-   CALENDAR CARD
-   ========================================= */
+/* CALENDAR CARD */
 
 .calendar-card {
   width: 100%;
@@ -324,14 +306,10 @@ body {
     rgba(91, 67, 136, 0.08);
 
   backdrop-filter: blur(8px);
-
-  -webkit-backdrop-filter: blur(8px);
 }
 
 
-/* =========================================
-   CALENDAR NAVIGATION
-   ========================================= */
+/* CALENDAR NAVIGATION */
 
 .calendar-navigation {
   width: 100%;
@@ -348,6 +326,7 @@ body {
 
 .month-button {
   width: 40px;
+
   height: 40px;
 
   display: flex;
@@ -370,12 +349,21 @@ body {
   font-size: 22px;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .month-button:hover {
   background:
     rgba(255, 255, 255, 0.60);
+
+  transform: translateY(-1px);
 }
+
+
+/* TODAY BUTTON */
 
 .today-button {
   justify-self: center;
@@ -399,17 +387,21 @@ body {
   font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .today-button:hover {
   background:
     rgba(255, 255, 255, 0.55);
+
+  transform: translateY(-1px);
 }
 
 
-/* =========================================
-   WEEKDAYS
-   ========================================= */
+/* WEEKDAYS */
 
 .weekdays {
   width: 100%;
@@ -433,9 +425,7 @@ body {
 }
 
 
-/* =========================================
-   CALENDAR GRID
-   ========================================= */
+/* CALENDAR GRID */
 
 .calendar-grid {
   width: 100%;
@@ -449,9 +439,7 @@ body {
 }
 
 
-/* =========================================
-   CALENDAR DAYS
-   ========================================= */
+/* CALENDAR DAYS */
 
 .calendar-day {
   position: relative;
@@ -466,7 +454,8 @@ body {
     rgba(255, 255, 255, 0.18);
 
   transition:
-    background 0.2s ease;
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .calendar-day:hover {
@@ -480,12 +469,12 @@ body {
 
 .empty-day:hover {
   background: transparent;
+
+  transform: none;
 }
 
 
-/* =========================================
-   DAY NUMBER
-   ========================================= */
+/* DAY NUMBER */
 
 .day-number {
   color: #69527b;
@@ -496,9 +485,7 @@ body {
 }
 
 
-/* =========================================
-   TODAY
-   ========================================= */
+/* TODAY */
 
 .calendar-day.today {
   background:
@@ -530,9 +517,7 @@ body {
 }
 
 
-/* =========================================
-   EVENTS
-   ========================================= */
+/* EVENTS */
 
 .day-events {
   display: flex;
@@ -549,12 +534,16 @@ body {
 
   padding: 4px 5px;
 
+  border: none;
+
   border-radius: 5px;
 
   background:
     rgba(155, 123, 194, 0.65);
 
   color: white;
+
+  font-family: inherit;
 
   font-size: 9px;
 
@@ -563,12 +552,30 @@ body {
   white-space: nowrap;
 
   text-overflow: ellipsis;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.calendar-event:hover {
+  background:
+    rgba(118, 85, 162, 0.85);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 10px
+    rgba(118, 85, 162, 0.18);
 }
 
 
-/* =========================================
-   MESSAGES
-   ========================================= */
+/* MESSAGES */
 
 .message {
   margin: 22px 0 0;
@@ -583,9 +590,7 @@ body {
 }
 
 
-/* =========================================
-   LOGIN
-   ========================================= */
+/* LOGIN PAGE */
 
 .login-page {
   min-height: 100vh;
@@ -600,13 +605,13 @@ body {
 }
 
 .login-content {
-  width: min(
-    400px,
-    100%
-  );
+  width: min(400px, 100%);
 
   text-align: center;
 }
+
+
+/* LOGIN BRAND */
 
 .brand {
   margin-bottom: 42px;
@@ -615,50 +620,21 @@ body {
 }
 
 
-/* =========================================
-   LOGO WRAPPER
-   ========================================= */
+/* LOGO WRAPPER */
 
 .logo-wrapper {
   position: relative;
 
   display: inline-block;
-
-  /*
-   * Extra space gives the bubbles
-   * room to sit around the logo.
-   */
-  padding: 25px 45px;
 }
 
 
-/* =========================================
-   BUBBLE CONTAINER
-   ========================================= */
-
-.logo-bubbles {
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  pointer-events: none;
-
-  z-index: 1;
-}
-
-
-/* =========================================
-   BRAND NAME
-   ========================================= */
+/* BRAND NAME */
 
 .brand-name {
   position: relative;
 
-  z-index: 3;
+  z-index: 2;
 
   margin: 0;
 
@@ -673,390 +649,6 @@ body {
   letter-spacing: -2.5px;
 }
 
-
-/* =========================================
-   BUBBLES
-   ========================================= */
-
-.bubble {
-  position: absolute;
-
-  display: block;
-
-  border-radius: 50%;
-
-  /*
-   * Glossy bubble gradient
-   */
-  background:
-    radial-gradient(
-      circle at 30% 25%,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(255, 255, 255, 0.55) 25%,
-      rgba(213, 190, 235, 0.30) 65%,
-      rgba(180, 145, 215, 0.18) 100%
-    );
-
-  /*
-   * Glassy border
-   */
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.85);
-
-  /*
-   * Outer shadow + inner shine
-   */
-  box-shadow:
-    0 6px 18px
-    rgba(118, 85, 162, 0.18),
-
-    inset 2px 2px 5px
-    rgba(255, 255, 255, 0.85),
-
-    inset -2px -2px 5px
-    rgba(118, 85, 162, 0.10);
-
-  /*
-   * Glass effect
-   */
-  backdrop-filter: blur(4px);
-
-  -webkit-backdrop-filter: blur(4px);
-
-  /*
-   * Floating animation
-   */
-  animation:
-    bubble-float
-    4s
-    ease-in-out
-    infinite;
-}
-
-
-/* =========================================
-   BUBBLE SHINE
-   ========================================= */
-
-.bubble::after {
-  content: "";
-
-  position: absolute;
-
-  width: 25%;
-
-  height: 25%;
-
-  top: 18%;
-
-  left: 20%;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255, 255, 255, 0.85);
-
-  filter: blur(1px);
-}
-
-
-/* =========================================
-   BUBBLE 1
-   ========================================= */
-
-.bubble-1 {
-  width: 20px;
-  height: 20px;
-
-  left: 5%;
-  top: 5%;
-
-  animation-delay: 0s;
-}
-
-
-/* =========================================
-   BUBBLE 2
-   ========================================= */
-
-.bubble-2 {
-  width: 13px;
-  height: 13px;
-
-  left: -2%;
-  top: 48%;
-
-  animation-delay: -1s;
-
-  animation-duration: 4.5s;
-}
-
-
-/* =========================================
-   BUBBLE 3
-   ========================================= */
-
-.bubble-3 {
-  width: 28px;
-  height: 28px;
-
-  right: 4%;
-  top: 0%;
-
-  animation-delay: -2s;
-
-  animation-duration: 5s;
-}
-
-
-/* =========================================
-   BUBBLE 4
-   ========================================= */
-
-.bubble-4 {
-  width: 11px;
-  height: 11px;
-
-  right: -3%;
-  top: 48%;
-
-  animation-delay: -3s;
-
-  animation-duration: 3.8s;
-}
-
-
-/* =========================================
-   BUBBLE 5
-   ========================================= */
-
-.bubble-5 {
-  width: 17px;
-  height: 17px;
-
-  left: 15%;
-  bottom: -3%;
-
-  animation-delay: -1.5s;
-
-  animation-duration: 4.2s;
-}
-
-
-/* =========================================
-   BUBBLE 6
-   ========================================= */
-
-.bubble-6 {
-  width: 9px;
-  height: 9px;
-
-  right: 20%;
-  bottom: 0%;
-
-  animation-delay: -2.5s;
-
-  animation-duration: 3.5s;
-}
-
-
-/* =========================================
-   BUBBLE 7
-   ========================================= */
-
-.bubble-7 {
-  width: 7px;
-  height: 7px;
-
-  left: -10%;
-  top: 20%;
-
-  animation-delay: -0.5s;
-
-  animation-duration: 3.2s;
-}
-
-
-/* =========================================
-   BUBBLE 8
-   ========================================= */
-
-.bubble-8 {
-  width: 8px;
-  height: 8px;
-
-  right: -12%;
-  top: 30%;
-
-  animation-delay: -3.5s;
-
-  animation-duration: 4.8s;
-}
-
-
-/* =========================================
-   BUBBLE FLOAT ANIMATION
-   ========================================= */
-
-@keyframes bubble-float {
-
-  0% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-
-    opacity: 0.75;
-  }
-
-  25% {
-    transform:
-      translate3d(4px, -7px, 0)
-      scale(1.04);
-
-    opacity: 0.9;
-  }
-
-  50% {
-    transform:
-      translate3d(-3px, -14px, 0)
-      scale(1.1);
-
-    opacity: 1;
-  }
-
-  75% {
-    transform:
-      translate3d(5px, -7px, 0)
-      scale(1.04);
-
-    opacity: 0.9;
-  }
-
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-
-    opacity: 0.75;
-  }
-}
-
-
-/* =========================================
-   SPARKLES
-   ========================================= */
-
-.sparkle {
-  position: absolute;
-
-  display: block;
-
-  z-index: 4;
-
-  color: #9b7bc2;
-
-  line-height: 1;
-
-  text-shadow:
-    0 2px 8px
-    rgba(155, 123, 194, 0.35);
-
-  animation:
-    sparkle-twinkle
-    2.5s
-    ease-in-out
-    infinite;
-}
-
-
-/* =========================================
-   SPARKLE 1
-   ========================================= */
-
-.sparkle-1 {
-  left: -8%;
-  top: 5%;
-}
-
-
-/* =========================================
-   SPARKLE 2
-   ========================================= */
-
-.sparkle-2 {
-  left: 2%;
-  bottom: 0%;
-
-  animation-delay: -0.8s;
-}
-
-
-/* =========================================
-   SPARKLE 3
-   ========================================= */
-
-.sparkle-3 {
-  right: -8%;
-  top: 5%;
-
-  animation-delay: -1.2s;
-}
-
-
-/* =========================================
-   SPARKLE 4
-   ========================================= */
-
-.sparkle-4 {
-  right: 2%;
-  bottom: 0%;
-
-  animation-delay: -1.8s;
-}
-
-
-/* =========================================
-   SPARKLE 5
-   ========================================= */
-
-.sparkle-5 {
-  left: -12%;
-  top: 50%;
-
-  animation-delay: -0.4s;
-}
-
-
-/* =========================================
-   SPARKLE ANIMATION
-   ========================================= */
-
-@keyframes sparkle-twinkle {
-
-  0%,
-  100% {
-    opacity: 0.35;
-
-    transform:
-      scale(0.8)
-      rotate(0deg);
-  }
-
-  50% {
-    opacity: 1;
-
-    transform:
-      scale(1.2)
-      rotate(8deg);
-  }
-}
-
-
-/* =========================================
-   BRAND TAGLINE
-   ========================================= */
-
 .brand-tagline {
   margin: 13px 0 0;
 
@@ -1066,11 +658,243 @@ body {
 }
 
 
-/* =========================================
-   LOGIN FORM
-   ========================================= */
+/* BUBBLE CONTAINER */
 
-.login-form {
+.logo-bubbles {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* BUBBLES */
+
+.bubble {
+  position: absolute;
+
+  display: block;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.45);
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    0 6px 18px
+    rgba(118, 85, 162, 0.12),
+    inset 2px 2px 5px
+    rgba(255, 255, 255, 0.5);
+
+  backdrop-filter: blur(3px);
+
+  animation:
+    bubble-float
+    4s ease-in-out infinite;
+}
+
+.bubble-1 {
+  width: 18px;
+
+  height: 18px;
+
+  left: -25px;
+
+  top: 5px;
+
+  animation-delay: 0s;
+}
+
+.bubble-2 {
+  width: 12px;
+
+  height: 12px;
+
+  left: -42px;
+
+  top: 35px;
+
+  animation-delay: -1s;
+}
+
+.bubble-3 {
+  width: 24px;
+
+  height: 24px;
+
+  right: -32px;
+
+  top: 2px;
+
+  animation-delay: -2s;
+}
+
+.bubble-4 {
+  width: 10px;
+
+  height: 10px;
+
+  right: -48px;
+
+  top: 42px;
+
+  animation-delay: -3s;
+}
+
+.bubble-5 {
+  width: 15px;
+
+  height: 15px;
+
+  left: -12px;
+
+  top: 70px;
+
+  animation-delay: -1.5s;
+}
+
+.bubble-6 {
+  width: 8px;
+
+  height: 8px;
+
+  right: -15px;
+
+  top: 72px;
+
+  animation-delay: -2.5s;
+}
+
+.bubble-7 {
+  width: 6px;
+
+  height: 6px;
+
+  left: -55px;
+
+  top: 15px;
+
+  animation-delay: -0.5s;
+}
+
+.bubble-8 {
+  width: 7px;
+
+  height: 7px;
+
+  right: -58px;
+
+  top: 20px;
+
+  animation-delay: -3.5s;
+}
+
+
+/* BUBBLE ANIMATION */
+
+@keyframes bubble-float {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translateY(-10px)
+      scale(1.08);
+  }
+}
+
+
+/* SPARKLES */
+
+.sparkle {
+  position: absolute;
+
+  display: block;
+
+  color: #9b7bc2;
+
+  line-height: 1;
+
+  animation:
+    sparkle-twinkle
+    2.5s ease-in-out infinite;
+
+  z-index: 1;
+}
+
+.sparkle-1 {
+  left: -62px;
+
+  top: 0;
+}
+
+.sparkle-2 {
+  left: -35px;
+
+  top: 75px;
+
+  animation-delay: -0.8s;
+}
+
+.sparkle-3 {
+  right: -68px;
+
+  top: 5px;
+
+  animation-delay: -1.2s;
+}
+
+.sparkle-4 {
+  right: -42px;
+
+  top: 70px;
+
+  animation-delay: -1.8s;
+}
+
+.sparkle-5 {
+  left: -68px;
+
+  top: 50px;
+
+  animation-delay: -0.4s;
+}
+
+
+/* SPARKLE ANIMATION */
+
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0.4;
+
+    transform:
+      scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform:
+      scale(1.2);
+  }
+}
+
+
+/* FORM FIELDS */
+
+.login-form,
+.add-form {
   text-align: left;
 }
 
@@ -1111,6 +935,11 @@ body {
   font-size: 15px;
 
   outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .field textarea {
@@ -1133,9 +962,7 @@ body {
 }
 
 
-/* =========================================
-   PRIMARY BUTTON
-   ========================================= */
+/* PRIMARY BUTTON */
 
 .primary-button {
   width: 100%;
@@ -1168,21 +995,331 @@ body {
     rgba(118, 85, 162, 0.22);
 
   transition:
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .primary-button:hover {
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 12px 28px
+    rgba(118, 85, 162, 0.28);
 }
 
 
-/* =========================================
-   MOBILE
-   ========================================= */
+/* ADD / EDIT EVENT PAGE */
+
+.add-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 35px 20px;
+}
+
+
+/* ADD / EDIT EVENT CARD */
+
+.add-card {
+  position: relative;
+
+  width: min(600px, 100%);
+
+  margin: 0 auto;
+
+  padding: 30px;
+
+  border-radius: 22px;
+
+  background:
+    rgba(255, 255, 255, 0.30);
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.45);
+
+  box-shadow:
+    0 12px 35px
+    rgba(91, 67, 136, 0.08);
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* ADD EVENT HEADER */
+
+.add-header {
+  position: relative;
+
+  text-align: center;
+
+  margin-bottom: 25px;
+
+  padding-right: 35px;
+}
+
+.add-header h2 {
+  margin: 0;
+
+  color: #63458b;
+
+  font-size: 25px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+}
+
+.add-header p {
+  margin: 7px 0 0;
+
+  color: #93839e;
+
+  font-size: 13px;
+}
+
+
+/* CLOSE BUTTON */
+
+.close-button {
+  position: absolute;
+
+  top: 8px;
+
+  right: 8px;
+
+  width: 34px;
+
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.45);
+
+  color: #7658a0;
+
+  font-family: inherit;
+
+  font-size: 20px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.close-button:hover {
+  background:
+    rgba(255, 255, 255, 0.70);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 12px
+    rgba(118, 85, 162, 0.12);
+}
+
+
+/* ADD FORM */
+
+.add-form {
+  width: 100%;
+}
+
+
+/* TIME ROW */
+
+.time-row {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 15px;
+}
+
+
+/* FORM ERROR */
+
+.form-error {
+  margin: 0 0 18px;
+
+  padding: 11px 13px;
+
+  border-radius: 11px;
+
+  background:
+    rgba(255, 230, 234, 0.70);
+
+  color: #c4475a;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* FORM ACTIONS */
+
+.form-actions {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 25px;
+}
+
+
+/* SAVE BUTTON */
+
+.save-button {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border: none;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #9b7bc2,
+      #7655a2
+    );
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px
+    rgba(118, 85, 162, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.save-button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 11px 23px
+    rgba(118, 85, 162, 0.27);
+}
+
+.save-button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* DELETE BUTTON */
+
+.delete-button {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border: none;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e85d70,
+      #d94357
+    );
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px
+    rgba(217, 67, 87, 0.22);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.delete-button:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #dc4c60,
+      #c93449
+    );
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 11px 23px
+    rgba(201, 52, 73, 0.30);
+}
+
+.delete-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* MOBILE */
 
 @media (max-width: 650px) {
-
   .page {
     width: calc(100% - 28px);
 
@@ -1235,22 +1372,51 @@ body {
     font-size: 8px;
   }
 
-  .logo-wrapper {
-    padding: 20px 35px;
+  .add-page {
+    padding: 25px 14px;
   }
 
-  .brand-name {
-    font-size: 50px;
+  .add-card {
+    padding: 22px 18px;
+  }
+
+  .add-header {
+    margin-bottom: 22px;
+
+    padding-right: 30px;
+  }
+
+  .add-header h2 {
+    font-size: 21px;
+  }
+
+  .add-header p {
+    font-size: 12px;
+  }
+
+  .close-button {
+    top: 4px;
+
+    right: 4px;
+
+    width: 32px;
+
+    height: 32px;
+
+    font-size: 18px;
+  }
+
+  .time-row {
+    grid-template-columns: 1fr;
+
+    gap: 0;
   }
 }
 
 
-/* =========================================
-   SMALL PHONES
-   ========================================= */
+/* SMALL PHONES */
 
 @media (max-width: 430px) {
-
   .page {
     width: calc(100% - 22px);
   }
@@ -1293,17 +1459,35 @@ body {
     display: none;
   }
 
-  .logo-wrapper {
-    padding: 18px 30px;
+  .add-page {
+    padding: 20px 10px;
   }
 
-  .brand-name {
-    font-size: 44px;
+  .add-card {
+    padding: 20px 14px;
   }
 
-  .bubble-7,
-  .bubble-8,
-  .sparkle-5 {
-    display: none;
+  .add-header {
+    padding-right: 28px;
   }
+
+  .close-button {
+    top: 3px;
+
+    right: 3px;
+
+    width: 30px;
+
+    height: 30px;
+
+    font-size: 17px;
+  }
+  /* REQUIRED FIELD */
+.required {
+  color: #d94357;
+
+  margin-left: 2px;
+
+  font-weight: 700;
+}
 }
